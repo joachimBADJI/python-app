@@ -3,7 +3,7 @@ import pandas as pd
 import geopandas as gpd
 import folium as fl
 from streamlit_folium import st_folium
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",page_title='Visualise le monde')
 tb=gpd.read_file("https://raw.githubusercontent.com/tommyscodebase/12_Days_Geospatial_Python_Bootcamp/refs/heads/main/13_final_project_data/world.geojson")
 dt=pd.read_csv("https://raw.githubusercontent.com/tommyscodebase/12_Days_Geospatial_Python_Bootcamp/main/13_final_project_data/world_population.csv")
 done=dt[dt['Country/Territory'].isin(tb['name'])]['Country/Territory'].unique()
@@ -24,10 +24,7 @@ with col2:
     pa_gr=dt[dt['Country/Territory'] == sele]['Growth Rate'].values[0]
     pa_wo=dt[dt['Country/Territory'] == sele]['World Population Percentage'].values[0]
     st.markdown('#### Statistiques du pays')
-    st.text(f'La superficie du pays est de {pa_ar} km²')
-    st.text(f'La densité est de {pa_de} par km²')
-    st.text(f'Le taux de croissance est de {pa_gr}')
-    st.text(f'Son pourcentage par rapport au monde est de {pa_wo} %')
+    st.text(f'La superficie du pays est de {pa_ar} km²\nLa densité est de {pa_de} par km²\nLe taux de croissance est de {pa_gr}\nSon pourcentage par rapport au monde est de {pa_wo} %')
     m = fl.Map(location=[pays.geometry.centroid.y.values[0], pays.geometry.centroid.x.values[0]], zoom_start=5)
     fl.GeoJson(pays).add_to(m)
     st_folium(m, width=700, height=500)
